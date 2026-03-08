@@ -8,6 +8,8 @@ export interface Agent {
   beat: AgentBeat;
   icon: string;
   initial: string;
+  avatar: string;
+  source: string;
 }
 
 export type SourceType = 'quantitative' | 'interview' | 'survey' | 'review' | 'web' | 'integration';

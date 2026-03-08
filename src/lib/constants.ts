@@ -7,6 +7,8 @@ export const AGENTS: Record<string, Agent> = {
     beat: 'Quantitative',
     icon: '📊',
     initial: 'N',
+    avatar: '/mixpanel-agent-avater.png',
+    source: 'Mixpanel',
   },
   iris: {
     id: 'iris',
@@ -14,6 +16,8 @@ export const AGENTS: Record<string, Agent> = {
     beat: 'Qualitative',
     icon: '🎙️',
     initial: 'I',
+    avatar: '/slack-agent-avater.png',
+    source: 'Slack',
   },
   scout: {
     id: 'scout',
@@ -21,6 +25,8 @@ export const AGENTS: Record<string, Agent> = {
     beat: 'Market',
     icon: '🔍',
     initial: 'S',
+    avatar: '/zendesk-agent-avater.png',
+    source: 'Zendesk',
   },
 };
 

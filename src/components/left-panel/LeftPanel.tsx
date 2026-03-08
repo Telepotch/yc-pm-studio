@@ -4,7 +4,9 @@ import React from 'react';
 import TabBar from '@/components/ui/TabBar';
 import EditorialRoom from './EditorialRoom';
 import AgentTimeline from './AgentTimeline';
-import { IconPenLine, IconChartBar, IconMicrophone, IconCompass } from '@/components/ui/Icons';
+import Image from 'next/image';
+import { IconPenLine } from '@/components/ui/Icons';
+import { AGENTS } from '@/lib/constants';
 import { useAppStore } from '@/store/app-store';
 import { LeftTab } from '@/lib/types';
 
@@ -32,19 +34,19 @@ export default function LeftPanel({
     {
       id: 'nova',
       label: 'Nova',
-      icon: <IconChartBar size={14} />,
+      icon: <Image src={AGENTS.nova.avatar} alt="Nova" width={18} height={18} className="rounded-full" />,
       hasNotification: tabNotifications['nova'],
     },
     {
       id: 'iris',
       label: 'Iris',
-      icon: <IconMicrophone size={14} />,
+      icon: <Image src={AGENTS.iris.avatar} alt="Iris" width={18} height={18} className="rounded-full" />,
       hasNotification: tabNotifications['iris'],
     },
     {
       id: 'scout',
       label: 'Scout',
-      icon: <IconCompass size={14} />,
+      icon: <Image src={AGENTS.scout.avatar} alt="Scout" width={18} height={18} className="rounded-full" />,
       hasNotification: tabNotifications['scout'],
     },
   ];

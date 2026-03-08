@@ -30,7 +30,9 @@ export default function EditionAnnouncement({
               {agent && (
                 <>
                   {isRight && <span className="text-[11px] text-text-3 font-medium">{agent.beat}</span>}
+                  {isRight && <span className="text-[10px] text-text-3/60 font-medium">{agent.source}</span>}
                   <span className="text-[13px] font-semibold text-text-0">{agent.name}</span>
+                  {!isRight && <span className="text-[10px] text-text-3/60 font-medium">{agent.source}</span>}
                   {!isRight && <span className="text-[11px] text-text-3 font-medium">{agent.beat}</span>}
                 </>
               )}

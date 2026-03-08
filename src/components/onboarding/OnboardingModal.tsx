@@ -22,7 +22,7 @@ export default function OnboardingModal() {
   };
 
   return (
-    <Modal open>
+    <Modal open maxWidth={step === 3 ? 680 : undefined}>
       {/* Step indicator */}
       <div className="flex items-center gap-1.5 px-8 pt-6">
         {[1, 2, 3].map((s) => (
@@ -52,6 +52,7 @@ export default function OnboardingModal() {
       )}
       {step === 3 && (
         <StepDataSource
+          goals={goals}
           onSelect={handleFinish}
           onBack={() => setStep(2)}
         />
