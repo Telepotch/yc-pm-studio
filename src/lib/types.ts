@@ -54,6 +54,10 @@ export interface Message {
   // Edition
   editionConfidenceFrom?: number;
   editionConfidenceTo?: number;
+  // Source analysis (agent solo pages)
+  sourceContext?: string; // e.g., "#product-feedback", "Ticket #4521", "Funnel Analysis"
+  dataSnippet?: string; // Raw data preview (quoted message, metric block, etc.)
+  analysisNote?: string; // Agent's interpretation of the data
 }
 
 export interface InterventionOption {

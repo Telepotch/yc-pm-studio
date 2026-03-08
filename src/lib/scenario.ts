@@ -244,11 +244,11 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
     },
   },
 
-  // Timeline posts
+  // ── Nova Timeline (Mixpanel) ──────────────────────────────────────────
   {
     id: 7,
     action: 'message',
-    delay: 1500,
+    delay: 800,
     agentId: 'nova',
     timelineTarget: 'nova',
     message: {
@@ -256,17 +256,18 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
       type: 'report',
       tier: 'compact',
       content:
-        'Pulled subscription data from Payment API. 12,847 valid samples after preprocessing.',
-      timestamp: '2:01 PM',
+        'Connected to Mixpanel workspace. Starting subscription funnel analysis on the "Gen-Z Subscription" project.',
+      timestamp: '2:00 PM',
+      sourceContext: 'Mixpanel — Project Setup',
       sources: [
-        { type: 'quantitative', name: 'Payment Data API', detail: 'n=12,847' },
+        { type: 'quantitative', name: 'Mixpanel', detail: 'workspace connected' },
       ],
     },
   },
   {
-    id: 8,
+    id: 100,
     action: 'message',
-    delay: 1000,
+    delay: 600,
     agentId: 'nova',
     timelineTarget: 'nova',
     message: {
@@ -274,9 +275,179 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
       type: 'report',
       tier: 'compact',
       content:
-        'Interesting — top 10% of spenders account for 38% of total subscription spend. Skewed distribution.',
+        'Pulled subscription event data. 12,847 valid user profiles after preprocessing. Sample quality is high — 94% event completeness rate.',
+      timestamp: '2:01 PM',
+      sourceContext: 'Mixpanel — Event Export',
+      dataSnippet: 'Total events: 2,847,321\nUnique users: 12,847\nDate range: 2024-01 to 2025-02\nEvent completeness: 94.2%',
+      sources: [
+        { type: 'quantitative', name: 'Mixpanel', detail: 'n=12,847' },
+      ],
+    },
+  },
+  {
+    id: 101,
+    action: 'message',
+    delay: 800,
+    agentId: 'nova',
+    timelineTarget: 'nova',
+    message: {
+      agentId: 'nova',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Subscription spend analysis complete. Gen-Z spend is up 23% YoY, with experience-based subs growing fastest.',
+      timestamp: '2:04 PM',
+      sourceContext: 'Mixpanel — Revenue Analysis',
+      dataSnippet: 'Avg monthly spend: ¥8,420\nYoY growth: +23%\nExperience subs: +34% YoY\nContent subs: +12% YoY\nUtility subs: +8% YoY',
+      analysisNote: 'Experience-based subscriptions are the clear growth driver. This segment deserves dedicated analysis.',
+      sources: [
+        { type: 'quantitative', name: 'Mixpanel', detail: 'revenue cohort' },
+      ],
+    },
+  },
+  {
+    id: 102,
+    action: 'message',
+    delay: 700,
+    agentId: 'nova',
+    timelineTarget: 'nova',
+    message: {
+      agentId: 'nova',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Power-law distribution detected. Top 10% of spenders account for 38% of total subscription spend. High-value segment opportunity is significant.',
       timestamp: '2:08 PM',
-      sources: [{ type: 'quantitative', name: 'Payment Data API' }],
+      sourceContext: 'Mixpanel — Cohort Analysis',
+      dataSnippet: 'Top 1%: ¥28,400/mo (12% of spend)\nTop 10%: ¥14,200/mo (38% of spend)\nMedian: ¥6,800/mo\nBottom 25%: ¥2,100/mo',
+      analysisNote: 'Revenue is highly concentrated. A retention strategy focused on the top 10% could have outsized impact.',
+      sources: [{ type: 'quantitative', name: 'Mixpanel', detail: 'cohort analysis' }],
+    },
+  },
+
+  // ── Iris Timeline (Slack) ──────────────────────────────────────────
+  {
+    id: 103,
+    action: 'message',
+    delay: 500,
+    agentId: 'iris',
+    timelineTarget: 'iris',
+    message: {
+      agentId: 'iris',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Connected to Slack workspace. Scanning #product-feedback, #support, and #user-research channels for qualitative signals.',
+      timestamp: '2:00 PM',
+      sourceContext: 'Slack — Workspace Connected',
+      sources: [
+        { type: 'interview', name: 'Slack', detail: '3 channels' },
+      ],
+    },
+  },
+  {
+    id: 104,
+    action: 'message',
+    delay: 700,
+    agentId: 'iris',
+    timelineTarget: 'iris',
+    message: {
+      agentId: 'iris',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Found recurring theme in #product-feedback. Users are describing a "personalization decay" — the product recommendations feel less relevant over time.',
+      timestamp: '2:02 PM',
+      sourceContext: 'Slack — #product-feedback',
+      dataSnippet: '@tanaka_m: "First month was amazing, every recommendation was spot on. By month 3, it felt like it forgot about me."\n\n@sato_y: "The suggestions used to be so good. Now it\'s just the same stuff recycled."',
+      analysisNote: 'Two independent users describing the same pattern. The "honeymoon period" for personalization appears to end around month 3.',
+      sources: [
+        { type: 'interview', name: 'Slack', detail: '#product-feedback' },
+      ],
+    },
+  },
+  {
+    id: 105,
+    action: 'message',
+    delay: 600,
+    agentId: 'iris',
+    timelineTarget: 'iris',
+    message: {
+      agentId: 'iris',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Scanning #support channel. Sentiment analysis shows significant negative shift around month 4 of user lifecycle.',
+      timestamp: '2:05 PM',
+      sourceContext: 'Slack — #support',
+      dataSnippet: '@customer_success: "We\'re seeing a spike in cancellation requests from users in their 3rd-4th month. Common complaint: \'it stopped knowing me.\'"\n\n@pm_lead: "Same pattern in the NPS data. Score drops from 72 to 41 between M2 and M4."',
+      analysisNote: 'Internal team is already aware of the pattern but hasn\'t identified the root cause. This aligns with our quantitative churn data.',
+      sources: [
+        { type: 'interview', name: 'Slack', detail: '#support' },
+      ],
+    },
+  },
+
+  // ── Scout Timeline (Zendesk) ──────────────────────────────────────
+  {
+    id: 106,
+    action: 'message',
+    delay: 500,
+    agentId: 'scout',
+    timelineTarget: 'scout',
+    message: {
+      agentId: 'scout',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Connected to Zendesk. Scanning 4,200+ support tickets from the last 6 months for churn patterns and competitor mentions.',
+      timestamp: '2:01 PM',
+      sourceContext: 'Zendesk — Ticket Analysis',
+      sources: [
+        { type: 'web', name: 'Zendesk', detail: '4,200+ tickets' },
+      ],
+    },
+  },
+  {
+    id: 107,
+    action: 'message',
+    delay: 700,
+    agentId: 'scout',
+    timelineTarget: 'scout',
+    message: {
+      agentId: 'scout',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Ticket category analysis complete. Cancellation requests are up 34% QoQ, with "recommendation quality" cited as the #1 reason.',
+      timestamp: '2:04 PM',
+      sourceContext: 'Zendesk — Cancellation Tickets',
+      dataSnippet: 'Cancellation reasons (top 5):\n1. Recommendation quality — 38%\n2. Price vs. value — 22%\n3. Found alternative — 18%\n4. No longer needed — 14%\n5. Technical issues — 8%',
+      analysisNote: 'Recommendation quality is the dominant churn driver — nearly double the next reason. This strongly supports the personalization hypothesis.',
+      sources: [
+        { type: 'web', name: 'Zendesk', detail: 'n=1,247 tickets' },
+      ],
+    },
+  },
+  {
+    id: 108,
+    action: 'message',
+    delay: 600,
+    agentId: 'scout',
+    timelineTarget: 'scout',
+    message: {
+      agentId: 'scout',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Interesting competitor signal in recent tickets. Some users are explicitly mentioning switching to competitors for "better AI."',
+      timestamp: '2:06 PM',
+      sourceContext: 'Zendesk — Ticket #4521',
+      dataSnippet: 'Ticket #4521 — Cancellation Request\nUser: Premium subscriber (8 months)\n\n"I\'m switching to [CompetitorX]. Their AI actually learns from my feedback and gets better over time. Yours seems to plateau after a few weeks."',
+      analysisNote: 'Direct competitor threat signal. CompetitorX is being perceived as having better personalization. Need to investigate their approach.',
+      sources: [
+        { type: 'web', name: 'Zendesk', detail: 'Ticket #4521' },
+      ],
     },
   },
 
@@ -332,7 +503,7 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
     },
   },
 
-  // Timeline post
+  // Iris timeline — deeper Slack findings
   {
     id: 13,
     action: 'message',
@@ -344,10 +515,34 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
       type: 'report',
       tier: 'compact',
       content:
-        'Strong emotional signal: "I cancel when it stops feeling like it knows me." Personalization decay is the core churn driver, not content quality.',
+        'Critical emotional signal found. "Personalization decay" is the core churn driver — not content quality, not pricing.',
       timestamp: '2:06 PM',
+      sourceContext: 'Slack — #user-research',
+      dataSnippet: '@ux_researcher: "Ran exit interviews this week. Direct quote from 3 separate users: \'I cancel when it stops feeling like it knows me.\' This is consistent across segments."\n\n@data_analyst: "Correlates with our M3 retention cliff. Something breaks in the personalization model around week 10-12."',
+      analysisNote: 'The qualitative and quantitative evidence are converging. Personalization decay around month 3 is the #1 churn driver.',
       sources: [
-        { type: 'interview', name: 'User Interviews', detail: 'sentiment analysis' },
+        { type: 'interview', name: 'Slack', detail: '#user-research' },
+      ],
+    },
+  },
+  {
+    id: 109,
+    action: 'message',
+    delay: 600,
+    agentId: 'iris',
+    timelineTarget: 'iris',
+    message: {
+      agentId: 'iris',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Found positive signal too — users who feel "understood" have dramatically higher retention. The opportunity is real.',
+      timestamp: '2:08 PM',
+      sourceContext: 'Slack — #product-feedback',
+      dataSnippet: '@power_user_k: "Honestly this is the only subscription I\'ve kept for over a year. It actually gets better at knowing what I want."\n\n@user_nina: "Love how it remembers I hate horror and adjusts everything accordingly. Feels like it knows me."',
+      analysisNote: 'Users who feel "understood" show 3.2x higher retention. Contextual awareness — not just accuracy — is the key differentiator.',
+      sources: [
+        { type: 'interview', name: 'Slack', detail: '#product-feedback' },
       ],
     },
   },
@@ -398,6 +593,51 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
       sources: [
         { type: 'quantitative', name: 'Payment Data API', detail: 'cohort analysis' },
         { type: 'interview', name: 'User Interviews', detail: 'n=24' },
+      ],
+    },
+  },
+
+  // Nova timeline — churn analysis + cross-reference
+  {
+    id: 111,
+    action: 'message',
+    delay: 500,
+    agentId: 'nova',
+    timelineTarget: 'nova',
+    message: {
+      agentId: 'nova',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Retention curve analysis reveals two critical churn cliffs. Month 3 and Month 7 are the key intervention points.',
+      timestamp: '2:09 PM',
+      sourceContext: 'Mixpanel — Retention Curves',
+      dataSnippet: 'Retention by month:\nM1: 94% → M2: 82% → M3: 54% (−28%!)\nM4: 48% → M5: 44% → M6: 41%\nM7: 22% (−19%!) → M8: 20% → M12: 18%',
+      analysisNote: 'Two clear cliffs at M3 and M7. Personalization interventions at these points could recover ~$2.1M ARR based on current ARPU.',
+      sources: [
+        { type: 'quantitative', name: 'Mixpanel', detail: 'retention analysis' },
+      ],
+    },
+  },
+  {
+    id: 112,
+    action: 'message',
+    delay: 600,
+    agentId: 'nova',
+    timelineTarget: 'nova',
+    message: {
+      agentId: 'nova',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Cross-referencing Mixpanel data with Iris\'s Slack findings. The quantitative and qualitative data are converging on the same story.',
+      timestamp: '2:12 PM',
+      sourceContext: 'Mixpanel + Slack — Cross-reference',
+      dataSnippet: 'Mixpanel: M3 churn cliff at 28%\nSlack #support: "M3 cancellation spike"\nSlack #user-research: "personalization breaks at week 10-12"\n\nCorrelation: 0.91 between personalization engagement score decay and churn timing.',
+      analysisNote: 'Strong convergence across data sources. Confidence in personalization-decay hypothesis is building — ready to formalize.',
+      sources: [
+        { type: 'quantitative', name: 'Mixpanel', detail: 'cross-reference' },
+        { type: 'interview', name: 'Slack', detail: '#support + #user-research' },
       ],
     },
   },
@@ -519,7 +759,7 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
     },
   },
 
-  // Timeline
+  // Scout timeline — Zendesk competitor intel
   {
     id: 26,
     action: 'message',
@@ -531,10 +771,34 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
       type: 'report',
       tier: 'compact',
       content:
-        'Market for personalized subscription experiences projected at $4.2B by 2028 (CAGR 28%). Japan market significantly under-penetrated.',
-      timestamp: '2:24 PM',
+        'Zendesk ticket data confirms the competitive landscape gap. Customers who mention competitors are mostly citing basic recommendation engines — no one has contextual AI.',
+      timestamp: '2:20 PM',
+      sourceContext: 'Zendesk — Competitor Mentions',
+      dataSnippet: 'Competitor mentions in tickets (last 6mo):\nCompetitorX — 89 mentions (basic CF filtering)\nCompetitorY — 47 mentions (editorial curation)\nCompetitorZ — 23 mentions (price-based)\n\nNone mention advanced AI personalization.',
+      analysisNote: 'The competitive moat is wider than expected. No competitor is doing contextual personalization — this is genuine white space.',
       sources: [
-        { type: 'web', name: 'Market Reports', detail: 'Gartner + CB Insights' },
+        { type: 'web', name: 'Zendesk', detail: 'competitor analysis' },
+      ],
+    },
+  },
+  {
+    id: 110,
+    action: 'message',
+    delay: 600,
+    agentId: 'scout',
+    timelineTarget: 'scout',
+    message: {
+      agentId: 'scout',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Market sizing from external reports aligns with Zendesk demand signals. The opportunity is large and the Japan market is under-penetrated.',
+      timestamp: '2:24 PM',
+      sourceContext: 'Zendesk + Market Reports',
+      dataSnippet: 'TAM: $4.2B by 2028 (CAGR 28%)\nJapan penetration: ~12% vs 34% US\n\nZendesk feature requests (last quarter):\n"Better personalization" — 312 tickets\n"AI recommendations" — 198 tickets\n"Learn my preferences" — 156 tickets',
+      analysisNote: 'Customer demand for personalization is clearly present in support data. Combined with market projections, this validates the opportunity size.',
+      sources: [
+        { type: 'web', name: 'Zendesk + Gartner', detail: 'market analysis' },
       ],
     },
   },
@@ -588,6 +852,62 @@ export const SCENARIO_STEPS: ScenarioStep[] = [
     edition: EDITION_V1,
     recommendations: RECOMMENDATIONS,
     roadmap: ROADMAP,
+  },
+
+  // Post-edition timeline summaries for each agent
+  {
+    id: 113,
+    action: 'message',
+    delay: 500,
+    agentId: 'nova',
+    timelineTarget: 'nova',
+    message: {
+      agentId: 'nova',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Edition published. All Mixpanel findings have been compiled. The retention cliff data was the strongest signal — recommending A/B test at the M3 intervention point next.',
+      timestamp: '2:30 PM',
+      sourceContext: 'Mixpanel — Analysis Summary',
+      dataSnippet: 'Key Mixpanel findings contributed:\n• ¥8,420/mo avg spend (+23% YoY)\n• Power-law: top 10% = 38% of spend\n• M3 churn cliff: 28% drop\n• M7 secondary cliff: 19% drop\n• Potential recovery: ~$2.1M ARR',
+      analysisNote: 'Next cycle: design the M3 intervention experiment in Mixpanel. Target n=500 users entering month 3.',
+    },
+  },
+  {
+    id: 114,
+    action: 'message',
+    delay: 400,
+    agentId: 'iris',
+    timelineTarget: 'iris',
+    message: {
+      agentId: 'iris',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Edition published. Slack analysis provided the emotional layer behind the numbers. "Personalization decay" is now our working term for the core problem.',
+      timestamp: '2:30 PM',
+      sourceContext: 'Slack — Analysis Summary',
+      dataSnippet: 'Key Slack findings contributed:\n• "I cancel when it stops knowing me" — #1 theme\n• Experience fatigue sets in at M3-M4\n• NPS drops 72 → 41 between M2 and M4\n• Users who feel "understood" = 3.2x retention\n• Internal team aware but lacks root cause',
+      analysisNote: 'Next cycle: monitor #product-feedback for responses to M3 intervention. Will flag new cancellation patterns.',
+    },
+  },
+  {
+    id: 115,
+    action: 'message',
+    delay: 400,
+    agentId: 'scout',
+    timelineTarget: 'scout',
+    message: {
+      agentId: 'scout',
+      type: 'report',
+      tier: 'compact',
+      content:
+        'Edition published. Zendesk data provided the competitive context. The first-mover window is real — 6-9 months before competitors ship comparable features.',
+      timestamp: '2:30 PM',
+      sourceContext: 'Zendesk — Analysis Summary',
+      dataSnippet: 'Key Zendesk findings contributed:\n• Cancellation reason #1: recommendation quality (38%)\n• Competitor threat: CompetitorX perceived as better AI\n• No competitor has contextual personalization\n• First-mover window: 6-9 months\n• Feature demand: 312 tickets requesting "better personalization"',
+      analysisNote: 'Next cycle: continue monitoring competitor beta programs via Zendesk ticket mentions. Will flag any significant product launches.',
+    },
   },
 
   // ── Act 6: Wrap-up ────────────────────────────────────────────────────
