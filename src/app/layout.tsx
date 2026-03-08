@@ -19,6 +19,14 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: 'PM Studio',
   description: 'AI-powered product management platform',
+  icons: {
+    icon: '/favicon.ico',
+  },
+  openGraph: {
+    title: 'PM Studio',
+    description: 'AI-powered product management platform',
+    images: ['/pm-studio-logo.png'],
+  },
 };
 
 export default function RootLayout({

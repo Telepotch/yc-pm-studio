@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Badge from '@/components/ui/Badge';
-import { IconActivity, IconZap } from '@/components/ui/Icons';
+import { IconActivity } from '@/components/ui/Icons';
 import { useAppStore } from '@/store/app-store';
 import { AGENT_LIST } from '@/lib/constants';
 
@@ -15,12 +16,13 @@ export default function TopBar() {
   return (
     <header className="h-12 flex items-center justify-between px-5 bg-bg-0/80 backdrop-blur-md border-b border-border-default shrink-0 relative z-10">
       <div className="flex items-center gap-2.5">
-        <div className="flex items-center gap-1.5">
-          <div className="w-5 h-5 rounded bg-accent flex items-center justify-center">
-            <IconZap size={12} className="text-white" strokeWidth={2.5} />
-          </div>
-          <h1 className="text-[15px] font-bold text-text-0 tracking-tight">PM Studio</h1>
-        </div>
+        <Image
+          src="/pm-studio-logo.png"
+          alt="PM Studio"
+          width={120}
+          height={27}
+          priority
+        />
         <Badge variant="beta">BETA</Badge>
       </div>
 
